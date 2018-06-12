@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{797EA3EE-672D-4DCA-AEE6-4E7C744C6FA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tlahui.Context.WebAPI</RootNamespace>
+    <AssemblyName>Tlahui.Context.WebAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Migrations\201804222004409_Initial.cs" />
+    <Compile Include="Migrations\201804222004409_Initial.Designer.cs">
+      <DependentUpon>201804222004409_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805302125077_CacheAndLocalization.cs" />
+    <Compile Include="Migrations\201805302125077_CacheAndLocalization.Designer.cs">
+      <DependentUpon>201805302125077_CacheAndLocalization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806010207124_BaseEntitesReconfiguration.cs" />
+    <Compile Include="Migrations\201806010207124_BaseEntitesReconfiguration.Designer.cs">
+      <DependentUpon>201806010207124_BaseEntitesReconfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806011936070_LocalizedresourcesUpdate.cs" />
+    <Compile Include="Migrations\201806011936070_LocalizedresourcesUpdate.Designer.cs">
+      <DependentUpon>201806011936070_LocalizedresourcesUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebAPIContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomAttributes\CustomAttributes.csproj">
+      <Project>{a5394107-969d-46d1-b138-ffc5ae07b39d}</Project>
+      <Name>CustomAttributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenericRepository\GenericRepository.csproj">
+      <Project>{d2f98f3e-1a5d-4bfd-8761-3f86234da385}</Project>
+      <Name>GenericRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Accounts\Tlahui.Domain.Accounts.csproj">
+      <Project>{433dc850-f47d-4c2a-ac30-2f023a7e9021}</Project>
+      <Name>Tlahui.Domain.Accounts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Base\Tlahui.Domain.Base.csproj">
+      <Project>{ca762430-07f1-4e34-8fcb-cd94b811e824}</Project>
+      <Name>Tlahui.Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Common\Tlahui.Domain.Common.csproj">
+      <Project>{6e333685-04b7-4136-907f-6d055764cb47}</Project>
+      <Name>Tlahui.Domain.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.CRM\Tlahui.Domain.CRM.csproj">
+      <Project>{f975e536-2f94-4d91-a208-64719642d23f}</Project>
+      <Name>Tlahui.Domain.CRM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Infraestructure\Tlahui.Domain.Infraestructure.csproj">
+      <Project>{f1ce9822-d064-4e46-a298-cc6aac689bee}</Project>
+      <Name>Tlahui.Domain.Infraestructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Store\Tlahui.Domain.Store.csproj">
+      <Project>{664d31c5-ea83-41a6-8ec9-5ad3195ddaa7}</Project>
+      <Name>Tlahui.Domain.Store</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201804222004409_Initial.resx">
+      <DependentUpon>201804222004409_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805302125077_CacheAndLocalization.resx">
+      <DependentUpon>201805302125077_CacheAndLocalization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806010207124_BaseEntitesReconfiguration.resx">
+      <DependentUpon>201806010207124_BaseEntitesReconfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806011936070_LocalizedresourcesUpdate.resx">
+      <DependentUpon>201806011936070_LocalizedresourcesUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
