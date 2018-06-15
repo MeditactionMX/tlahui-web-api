@@ -28,6 +28,9 @@ namespace Tlahui.Repositories.Infrastructure.DynamicForms
             context.LocalizableResources.Where(x => x.ResourceGroupId == ResourceId &&
             x.Language == Language && x.Culture == Locale).ToList();
 
+            List<DynamicTableMetadata> metadata = context.DynamicTableMetadataProperties.Where(x => x.ResourceGroupId == ResourceId).ToList();
+
+
             if (list.Count == 0) {
                 list = context.LocalizableResources.Where(x => x.ResourceGroupId == ResourceId &&
                 x.Language == DEFAULT_LANG && x.Culture == DEFAULT_LOCALE).ToList();
@@ -50,8 +53,35 @@ namespace Tlahui.Repositories.Infrastructure.DynamicForms
                     col.Language = r.Language;
                     col.Culture = r.Culture;
                     col.ShortId = r.ShortId;
+
+                    DynamicTableMetadata m = metadata.Where(x => x.ResourceId == r.ResourceId).Take(1).SingleOrDefault();
+                    if (m != null)
+                    {
+                        col.AlwaysHidden = m.AlwaysHidden;
+                        col.DisplayByDefault=m.DisplayByDefault ;
+                        col.DisplayIndex=m.DisplayIndex ;
+                        col.IsID=m.IsID ;
+                        col.OutpuFormat=m.OutpuFormat ;
+                        col.Searchable = m.Searchable ;
+                        col.Type = (CustomAttributes.TableColumn.DataType)m.Type;
+
+
+                    }
+                    else {
+                        col.AlwaysHidden = true;
+                        col.DisplayByDefault = false;
+                        col.DisplayIndex = 0;
+                        col.IsID = false;
+                        col.OutpuFormat = "";
+                        col.Searchable = false;
+                        col.Type = CustomAttributes.TableColumn.DataType.text;
+                    }
+
+
                     table.Columns.Add(col);
                 }
+
+                
             }
             
 

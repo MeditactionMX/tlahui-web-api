@@ -34,6 +34,7 @@ namespace Tlahui.Context.WebAPI
         #region Infrastructure
         public virtual DbSet<CachedResourceStatistics> CachedResourceStatistics { get; set; }
         public virtual DbSet<LocalizableResource> LocalizableResources { get; set; }
+        public virtual DbSet<DynamicTableMetadata> DynamicTableMetadataProperties { get; set; }
         #endregion
 
 

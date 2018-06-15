@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Entities\GUIDEntity.cs" />
     <Compile Include="Entities\IBucketTrackable.cs" />
+    <Compile Include="Entities\IDynamicUIResource.cs" />
     <Compile Include="Entities\ILocalizableResource.cs" />
     <Compile Include="Entities\IRateable.cs" />
     <Compile Include="Entities\ITrackableEntity.cs" />

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CachedResourceStatistics.cs" />
+    <Compile Include="Entities\DynamicTableMetadata.cs" />
     <Compile Include="Entities\LocalizableResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

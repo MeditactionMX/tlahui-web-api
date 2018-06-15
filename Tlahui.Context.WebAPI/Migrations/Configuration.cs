@@ -11,7 +11,7 @@ namespace Tlahui.Context.WebAPI.Migrations
     using Tlahui.Domain.Common.Tenant;
     using Tlahui.Domain.Infraestructure.Entities;
     using Tlahui.Domain.Store.Entities;
-
+    
     internal sealed class Configuration : DbMigrationsConfiguration<Tlahui.Context.WebAPI.WebAPIContext>
     {
         public Configuration()
@@ -24,7 +24,7 @@ namespace Tlahui.Context.WebAPI.Migrations
             //  This method will be called after migrating to the latest version.
 
             LoadLocalizableResourcesFromAssemblies(context);
-
+            LoadDynamicTableMetadataFromAssemblies(context);
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
@@ -60,6 +60,120 @@ namespace Tlahui.Context.WebAPI.Migrations
             }
             );
 
+        }
+
+        private void LoadDynamicTableMetadataFromAssemblies(Tlahui.Context.WebAPI.WebAPIContext context)
+        {
+
+            List<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+
+            foreach (Assembly a in assemblies)
+            {
+                var uidynamics = a.DefinedTypes.Where(type => type.ImplementedInterfaces.Any(inter => inter == typeof(IDynamicUIResource))).ToList();
+                foreach (TypeInfo tipo in uidynamics)
+                {
+
+
+                    System.Type t = System.Type.GetType(tipo.AssemblyQualifiedName);
+                    System.Attribute[] attrs;
+
+
+                    //Check localization on type
+                    attrs = System.Attribute.GetCustomAttributes(t);
+                    foreach (System.Attribute attr in attrs)
+                    {
+                        if (attr is TableColumn)
+                        {
+                            TableColumn resource = (TableColumn)attr;
+                            context.DynamicTableMetadataProperties.AddOrUpdate(x => new { x.ResourceId },
+                                new DynamicTableMetadata()
+                                {
+                                    DisplayByDefault = resource.DisplayByDefault,
+                                    AlwaysHidden = resource.AlwaysHidden,
+                                    DisplayIndex = resource.DisplayIndex,
+                                    IsID = resource.IsID,
+                                    OutpuFormat = resource.OutpuFormat,
+                                    Searchable = resource.Searchable,
+                                    Type = resource.Type.GetHashCode(),
+                                    ResourceId = t.FullName,
+                                    ResourceGroupId = t.FullName,
+                                    ShortId = t.FullName.Split('.').ToList().Last()
+
+                                });
+                        }
+
+                    }
+
+
+                    //Check localization within interfaces
+                    var interfaces = t.GetInterfaces().ToList();
+                    foreach (Type ifc in interfaces)
+                    {
+                        var iprops = ifc.GetProperties().ToList();
+
+                        foreach (PropertyInfo pi in iprops)
+                        {
+                            attrs = System.Attribute.GetCustomAttributes(pi);
+                            foreach (System.Attribute attr in attrs)
+                            {
+                                if (attr is TableColumn)
+                                {
+                                    TableColumn resource = (TableColumn)attr;
+                                    context.DynamicTableMetadataProperties.AddOrUpdate(x => new { x.ResourceId },
+                                        new DynamicTableMetadata()
+                                        {
+                                            DisplayByDefault = resource.DisplayByDefault,
+                                            AlwaysHidden = resource.AlwaysHidden,
+                                            DisplayIndex = resource.DisplayIndex,
+                                            IsID = resource.IsID,
+                                            OutpuFormat = resource.OutpuFormat,
+                                            Searchable = resource.Searchable,
+                                            Type = resource.Type.GetHashCode(),
+                                            ResourceId = t.FullName + "." + pi.Name,
+                                            ResourceGroupId = t.FullName,
+                                            ShortId = pi.Name
+                                        });
+                                }
+
+                            }
+                        }
+                    }
+
+
+
+
+                    //Check localization within properties
+                    var props = t.GetProperties().ToList();
+                    foreach (PropertyInfo pi in props)
+                    {
+                        attrs = System.Attribute.GetCustomAttributes(pi);
+                        foreach (System.Attribute attr in attrs)
+                        {
+                            if (attr is TableColumn)
+                            {
+                                TableColumn resource = (TableColumn)attr;
+                                context.DynamicTableMetadataProperties.AddOrUpdate(x => new { x.ResourceId },
+                                    new DynamicTableMetadata()
+                                    {
+                                        DisplayByDefault = resource.DisplayByDefault,
+                                        AlwaysHidden = resource.AlwaysHidden,
+                                        DisplayIndex = resource.DisplayIndex,
+                                        IsID = resource.IsID,
+                                        OutpuFormat = resource.OutpuFormat,
+                                        Searchable = resource.Searchable,
+                                        Type = resource.Type.GetHashCode(),
+                                        ResourceId = t.FullName + "." + pi.Name,
+                                        ResourceGroupId = t.FullName,
+                                        ShortId = pi.Name
+                                    });
+                            }
+
+                        }
+                    }
+
+
+                }
+            }
         }
 
 
@@ -169,5 +283,7 @@ namespace Tlahui.Context.WebAPI.Migrations
                 }
             }
         }
+
+
     }
 }

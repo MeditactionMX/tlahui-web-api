@@ -178,7 +178,7 @@ namespace Tlahui.Services.Store
         public Task<UITable> GetCategoryUITable(string language, string locale)
         {
             if (!AllowExecute()) throw new Exception("Forbidden");
-            return DynamicFormsRepository.GetTableMetadata(KEY_CATEGORIES, language, locale);
+            return DynamicFormsRepository.GetTableMetadata(KEY_CATEGORIES, "us", locale);
         }
 
 

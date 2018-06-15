@@ -21,7 +21,7 @@ namespace Tlahui.Domain.Store.Entities
     [Table("Category", Schema = "Store")]
     [Localizable("Categoría", "Categorías", Context = "")]
     [Localizable("Category", "Categories", Context = "", Culture = "US", Language = "en")]
-    public class Category : GUIDEntity, ITrackableEntity, IBucketTrackable, ILocalizableResource
+    public class Category : GUIDEntity, ITrackableEntity, IBucketTrackable, ILocalizableResource, IDynamicUIResource
     {
 
         #region CNST

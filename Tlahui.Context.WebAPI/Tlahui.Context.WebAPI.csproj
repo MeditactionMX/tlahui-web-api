@@ -66,6 +66,10 @@
     <Compile Include="Migrations\201806011936070_LocalizedresourcesUpdate.Designer.cs">
       <DependentUpon>201806011936070_LocalizedresourcesUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806121942413_MDynamicTableMetadata.cs" />
+    <Compile Include="Migrations\201806121942413_MDynamicTableMetadata.Designer.cs">
+      <DependentUpon>201806121942413_MDynamicTableMetadata.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebAPIContext.cs" />
@@ -122,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806011936070_LocalizedresourcesUpdate.resx">
       <DependentUpon>201806011936070_LocalizedresourcesUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806121942413_MDynamicTableMetadata.resx">
+      <DependentUpon>201806121942413_MDynamicTableMetadata.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

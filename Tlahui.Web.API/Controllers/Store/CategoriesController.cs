@@ -19,6 +19,7 @@ using System.Configuration;
 
 namespace Tlahui.Web.API.Controllers.Store
 {
+
     [Authorize]
     [BucketValidationFilter]
     [RoutePrefix("api/store/categories")]
@@ -224,6 +225,8 @@ namespace Tlahui.Web.API.Controllers.Store
             return Ok(category);
         }
 
+
+        //Codigo de javier para formas dinámicas
 
         [ResponseType(typeof(UITable))]
         [HttpGet]
