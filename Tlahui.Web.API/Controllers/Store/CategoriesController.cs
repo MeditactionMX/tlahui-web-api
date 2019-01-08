@@ -16,11 +16,15 @@ using System.Security.Claims;
 using Infrastructure;
 using DynamicForms.Entities;
 using System.Configuration;
+using Tlahui.Domain.Base.Entities;
+using System.Web.Http.ModelBinding;
+using Tlahui.Web.API.Models.modelbinders;
+using Tlahui.Domain.Common.Entities;
 
 namespace Tlahui.Web.API.Controllers.Store
 {
 
-    [Authorize]
+//    [Authorize]
     [BucketValidationFilter]
     [RoutePrefix("api/store/categories")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -83,13 +87,21 @@ namespace Tlahui.Web.API.Controllers.Store
         [CacheOutput(ClientTimeSpan = 180, ServerTimeSpan = 100, AnonymousOnly = true)]
         [Route("")]
         [HttpGet]
-        public IQueryable<Category> GetCategories()
-        {   
+        public IQueryable<Category> GetCategories([ModelBinder(typeof(APISEarchModelBinderProvider))] APISearch Search)
+        {
 
             SetSecurityInfo();
-            return this.StoreService.GetCategories(new Infrastructure.RepositoryQuery());
-        }
 
+            if (Search == null)
+            {
+                Search = new APISearch();
+                Search.lang = this.GetLanguage();
+                Search.sortby = this.StoreService.GetDefaultCategoriesSortColumn();
+                Search.sortdirection = "asc";
+            }
+
+            return this.StoreService.GetCategories(Search);
+        }
 
         // GET: api/store/categories/id
         [ResponseType(typeof(Category))]
@@ -226,7 +238,7 @@ namespace Tlahui.Web.API.Controllers.Store
         }
 
 
-        //Codigo de javier para formas dinámicas
+      
 
         [ResponseType(typeof(UITable))]
         [HttpGet]
@@ -247,6 +259,49 @@ namespace Tlahui.Web.API.Controllers.Store
 
             return Ok(table);
         }
+
+
+        [ResponseType(typeof(UITable))]
+        [HttpGet]
+        [Route("metadata/form", Name = "CategoryUIForm")]
+        public async Task<IHttpActionResult> GetUIForm()
+        {
+            SetSecurityInfo();
+            List<string> LangParts = this.GetLanguage().Split('-').ToList();
+            if (LangParts.Count == 1)
+            {
+                LangParts.Add("");
+            }
+
+            UIForm table = await StoreService.GetCategoryUIForm(LangParts[0], LangParts[1]);
+            if (table == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(table);
+        }
+
+
+        [ResponseType(typeof(List<APIKeyValuePair>))]
+        [HttpGet]
+        [Route("catalog", Name = "Catalog")]
+        public async Task<IHttpActionResult> Catalog(string filter="") {
+
+            SetSecurityInfo();
+            List<string> LangParts = this.GetLanguage().Split('-').ToList();
+            if (LangParts.Count == 1)
+            {
+                LangParts.Add("");
+            }
+
+            Task<List<APIKeyValuePair>> task = Task.Factory.StartNew(()=>StoreService.CategoriesCatalog(filter));
+            await task;
+
+            return Ok(task.Result);
+             
+        }
+
 
     }
 }

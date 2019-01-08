@@ -10,5 +10,7 @@ namespace Tlahui.Repositories.Infrastructure.DynamicForms
     public interface IDynamicFormsRepository
     {
         Task<UITable> GetTableMetadata(string ResourceId, string Language, string Locale);
+        Task<UIForm> GetFormMetadata(string ResourceId, string Language, string Locale);
+
     }
 }

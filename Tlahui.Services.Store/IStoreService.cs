@@ -6,6 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Tlahui.Domain.Base.Entities;
+using Tlahui.Domain.Common.Entities;
 using Tlahui.Domain.Store.Entities;
 
 namespace Tlahui.Services.Store
@@ -17,11 +19,13 @@ namespace Tlahui.Services.Store
 
         #region Categories
 
-        IQueryable<Category> GetCategories(RepositoryQuery query);
+        string GetDefaultCategoriesSortColumn();
 
-        int GetCategoriesTotalCount(RepositoryQuery query);
+        IQueryable<Category> GetCategories(APISearch Query);
 
-        int GetCategoriesFilteredCount(RepositoryQuery query);
+        int GetCategoriesTotalCount(APISearch Query);
+
+        int GetCategoriesFilteredCount(APISearch Query);
 
         Task<Category> GetCategoryByID(object id);
 
@@ -35,12 +39,16 @@ namespace Tlahui.Services.Store
 
         Task<UITable> GetCategoryUITable(string language, string locale);
 
+        Task<UIForm> GetCategoryUIForm(string language, string locale);
+
         bool IsValidSession();
 
 
         void UpdateCategoryStats();
 
         DateTime GetCategoriesLastUpdate();
+
+        List<APIKeyValuePair> CategoriesCatalog(string filter);
 
         #endregion
 

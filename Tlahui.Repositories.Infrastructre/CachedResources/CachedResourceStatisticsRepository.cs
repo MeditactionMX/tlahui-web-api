@@ -1,4 +1,5 @@
 ﻿using Infrastructure.GenericRepository;
+using Infrastructure.providers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +14,7 @@ namespace Tlahui.Repositories.Infrastructure.CachedResources
     public class CachedResourceStatisticsRepository : GenericRepository<CachedResourceStatistics>, ICachedResourceStatisticsRepository
     {
         private Tlahui.Context.WebAPI.WebAPIContext context;
-        public CachedResourceStatisticsRepository(DbContext Db) : base(Db)
+        public CachedResourceStatisticsRepository(DbContext Db, ISQLSearchProvider provider) : base(Db, provider)
         {
             this.context = (Tlahui.Context.WebAPI.WebAPIContext)Db;
         }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tlahui.Domain.Base;
+using Tlahui.Domain.Shared;
+
 
 namespace Tlahui.Domain.Infraestructure.Entities
 {
@@ -73,5 +75,41 @@ namespace Tlahui.Domain.Infraestructure.Entities
         /// </summary>
         public bool AlwaysHidden { get; set; }
 
+
+        /// <summary>
+        /// Determines if colum is sort default
+        /// </summary>
+        public bool DeafultSort { get; set; }
+
+        /// <summary>
+        /// Enable to set a column as dicttionary key 
+        /// </summary>
+        public bool DictionaryKey { get; set; }
+
+        /// <summary>
+        /// Enable to set a column as dicttionary value 
+        /// </summary>
+        public bool DictionaryValue { get; set; }
+
+        /// <summary>
+        /// Field position on returned dictionary value
+        /// </summary>
+        public int DictionaryValueIndex { get; set; }
+
+        /// <summary>
+        /// Set an endpoint to collect a dictonary of entities
+        /// </summary>
+        [Required(AllowEmptyStrings = true)]
+        public string APIDictionaryEndpoint { get; set; }
+
+        /// <summary>
+        /// Determines display type for boolean values
+        /// </summary>
+        public BooleanDisplayType BoolDisplayType { get; set; }
+
+        /// <summary>
+        /// Specifies if a field is a logical deletion mark
+        /// </summary>
+        public bool MarkDeletedField { get; set; }
     }
 }

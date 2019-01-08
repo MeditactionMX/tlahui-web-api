@@ -36,6 +36,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Reflection.Core.1.1.1\lib\net45\Mono.Reflection.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -59,10 +62,8 @@
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchAttribute.cs" />
-    <Compile Include="RepositoryQuery.cs" />
-    <Compile Include="SearchResultColumn.cs" />
-    <Compile Include="SortAttribute.cs" />
+    <Compile Include="providers\ISQLSearchProvider.cs" />
+    <Compile Include="providers\MSSQLSearchProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -80,6 +81,14 @@
     <ProjectReference Include="..\Tlahui.Domain.Base\Tlahui.Domain.Base.csproj">
       <Project>{ca762430-07f1-4e34-8fcb-cd94b811e824}</Project>
       <Name>Tlahui.Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734D0-5758-4D59-A3A0-332E15C65E4D}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Services.Caching\Tlahui.Services.Caching.csproj">
+      <Project>{b85c0ac4-392f-428a-808d-f0a8685b4aea}</Project>
+      <Name>Tlahui.Services.Caching</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

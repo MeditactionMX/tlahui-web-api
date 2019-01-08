@@ -71,9 +71,25 @@
       <Project>{797ea3ee-672d-4dca-aee6-4e7c744c6fa2}</Project>
       <Name>Tlahui.Context.WebAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Base\Tlahui.Domain.Base.csproj">
+      <Project>{CA762430-07F1-4E34-8FCB-CD94B811E824}</Project>
+      <Name>Tlahui.Domain.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Common\Tlahui.Domain.Common.csproj">
+      <Project>{6e333685-04b7-4136-907f-6d055764cb47}</Project>
+      <Name>Tlahui.Domain.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tlahui.Domain.Infraestructure\Tlahui.Domain.Infraestructure.csproj">
       <Project>{f1ce9822-d064-4e46-a298-cc6aac689bee}</Project>
       <Name>Tlahui.Domain.Infraestructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734d0-5758-4d59-a3a0-332e15c65e4d}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Services.Caching\Tlahui.Services.Caching.csproj">
+      <Project>{b85c0ac4-392f-428a-808d-f0a8685b4aea}</Project>
+      <Name>Tlahui.Services.Caching</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

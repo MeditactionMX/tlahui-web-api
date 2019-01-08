@@ -13,17 +13,24 @@ using Tlahui.Repositories.Infrastructure.CachedResources;
 using Tlahui.Domain.Infraestructure.Entities;
 using Tlahui.Repositories.Infrastructure.DynamicForms;
 using DynamicForms.Entities;
+using Tlahui.Domain.Base.Entities;
+using Tlahui.Services.Caching.simple;
+using Tlahui.Domain.Common.Entities;
 
 namespace Tlahui.Services.Store
 {
     public class StoreService : IStoreService, IDisposable
     {
-        public const string KEY_CATEGORIES = "Tlahui.Domain.Store.Entities.Category"; 
-
+        public const string KEY_CATEGORIES = "Tlahui.Domain.Store.Entities.Category";
+        public const string KEY_CATEGORIES_BASEQUERY = "KEY_CATEGORIES_BASEQUERY";
+        public const string CATEGORIES_DEFAULT_SORT_COLUMN = "Name";
+        public const string CATEGORIES_DELETED_MARK_COLUMN = "Deleted";
+        
 
         private ICachedResourceStatisticsRepository CachedResourceStatisticsRepository;
         private ICategoriesRepository CategoriesRepository;
         private IDynamicFormsRepository DynamicFormsRepository;
+        private ICacheService CacheService;
         private WebAPIContext context;
 
         public string BucketId { get; set; }
@@ -32,12 +39,14 @@ namespace Tlahui.Services.Store
 
         public StoreService(ICategoriesRepository CategoriesRepository, 
             IDynamicFormsRepository DynamicFormsRepository,
-            ICachedResourceStatisticsRepository CachedResourceStatisticsRepository,  
+            ICachedResourceStatisticsRepository CachedResourceStatisticsRepository,
+            ICacheService CacheService,
             DbContext context)
         {
             this.CachedResourceStatisticsRepository = CachedResourceStatisticsRepository;
             this.CategoriesRepository = CategoriesRepository;
             this.DynamicFormsRepository = DynamicFormsRepository;
+            this.CacheService = CacheService;
             this.context = (WebAPIContext)context;
         }
 
@@ -61,7 +70,28 @@ namespace Tlahui.Services.Store
 
         }
 
+
+        private string GetBaseQuery(string ResourceId) {
+           return context.EntityQueries.Where(x => x.ResourceId == ResourceId).Select(x=>x.Query).First();
+        }
+
+
+        #region CategoriesCache
+
+        public string GetDefaultCategoriesSortColumn()
+        {
+            return CATEGORIES_DEFAULT_SORT_COLUMN;
+        }
+
+        public string GetDefaultCategoriesDeletedMarkColum()
+        {
+            return CATEGORIES_DELETED_MARK_COLUMN;
+        }
+
+        #endregion
+
         #region Categories
+
 
 
 
@@ -82,22 +112,29 @@ namespace Tlahui.Services.Store
             this.CategoriesRepository.Save();
         }
 
-        public IQueryable<Category> GetCategories( RepositoryQuery query)
+        public IQueryable<Category> GetCategories( APISearch Query)
         {
             if (!AllowExecute()) throw new Exception("Forbidden");
-            return this.CategoriesRepository.Get(this.UserId, this.BucketId, query);
+            if (string.IsNullOrEmpty(Query.sortby)) Query.sortby = this.CacheService.GetOrSet<string>("CATEGORIES_DEFAULT_SORT_COLUMN", () => GetDefaultCategoriesSortColumn(), 1440); 
+            if (string.IsNullOrEmpty(Query.markdeletedfield)) Query.markdeletedfield = this.CacheService.GetOrSet<string>("CATEGORIES_DELETED_MARK_COLUMN", () => GetDefaultCategoriesDeletedMarkColum(), 1440);
+            Query.basequery = this.CacheService.GetOrSet<string>(KEY_CATEGORIES_BASEQUERY, () => GetBaseQuery(KEY_CATEGORIES), 1440);
+
+            return this.CategoriesRepository.Get(KEY_CATEGORIES, this.UserId, this.BucketId, Query);
         }
 
-        public int GetCategoriesFilteredCount(RepositoryQuery query)
+        public int GetCategoriesFilteredCount(APISearch Query)
         {
             if (!AllowExecute()) throw new Exception("Forbidden");
-            return this.CategoriesRepository.GetFilteredCount(this.UserId, this.BucketId, query);
+            if (Query.sortby == "") Query.sortby = CATEGORIES_DEFAULT_SORT_COLUMN;
+            
+            return this.CategoriesRepository.GetFilteredCount(KEY_CATEGORIES, this.UserId, this.BucketId, Query);
         }
 
-        public int GetCategoriesTotalCount(RepositoryQuery query)
+        public int GetCategoriesTotalCount(APISearch Query)
         {
             if (!AllowExecute()) throw new Exception("Forbidden");
-            return this.CategoriesRepository.GetTotalCount(this.UserId, this.BucketId, query);
+            if (Query.sortby == "") Query.sortby = CATEGORIES_DEFAULT_SORT_COLUMN;
+            return this.CategoriesRepository.GetTotalCount(KEY_CATEGORIES, this.UserId, this.BucketId, Query);
         }
 
         public Task<Category> GetCategoryByID(object id)
@@ -170,6 +207,33 @@ namespace Tlahui.Services.Store
         }
 
 
+        public List<APIKeyValuePair> CategoriesCatalog(string filter)
+        {
+            if (!string.IsNullOrEmpty(filter))
+            {
+                return CategoriesRepository.GetEF(filter: f => f.Name.Contains(filter) && f.BucketId == BucketId,
+                orderBy: o => o.OrderBy(d => d.Name)).Select(
+                c => new APIKeyValuePair()
+                {
+                    Key = c.Id.ToString(),
+                    Value = c.Name
+                }
+                ).ToList();
+            }
+            else {
+                return CategoriesRepository.GetEF(filter: f => f.BucketId == BucketId,
+                orderBy: o => o.OrderBy(d => d.Name)).Select(
+                c => new APIKeyValuePair()
+                {
+                    Key = c.Id.ToString(),
+                    Value = c.Name
+                }
+                ).ToList();
+            }
+
+            
+        }
+
         #endregion
 
 
@@ -178,7 +242,18 @@ namespace Tlahui.Services.Store
         public Task<UITable> GetCategoryUITable(string language, string locale)
         {
             if (!AllowExecute()) throw new Exception("Forbidden");
-            return DynamicFormsRepository.GetTableMetadata(KEY_CATEGORIES, "us", locale);
+            //Este cache solo va a cambiar durante actualizaciones a la DB y sólo ocurriran 
+            //de manera manual o en migraciones lo que reiniciará el cache
+            return this.CacheService.GetOrSet<Task<UITable>>("GetCategoryUITable", () => DynamicFormsRepository.GetTableMetadata(KEY_CATEGORIES, language, locale), 1440);
+        }
+
+
+        public Task<UIForm> GetCategoryUIForm(string language, string locale)
+        {
+            if (!AllowExecute()) throw new Exception("Forbidden");
+            //Este cache solo va a cambiar durante actualizaciones a la DB y sólo ocurriran 
+            //de manera manual o en migraciones lo que reiniciará el cache
+            return this.CacheService.GetOrSet<Task<UIForm>>("GetCategoryUIForm", () => DynamicFormsRepository.GetFormMetadata(KEY_CATEGORIES, language, locale), 1440);
         }
 
 
@@ -218,7 +293,7 @@ namespace Tlahui.Services.Store
             GC.SuppressFinalize(this);
         }
 
-     
+
 
 
 

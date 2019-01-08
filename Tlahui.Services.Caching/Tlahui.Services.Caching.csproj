@@ -76,6 +76,8 @@
     <Compile Include="CustomCacheProvider.cs" />
     <Compile Include="ICache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="simple\ICacheService.cs" />
+    <Compile Include="simple\InMemoryCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -29,7 +29,7 @@ namespace Tlahui.Domain.Base.Entities
         /// </summary>
         [Localizable("Identificador único", "Identificadores únicos", Context = "")]
         [Localizable("Unique identifier", "Unique identifiers", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 0, IsID = true, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 0, IsID = true, OutpuFormat = "", Searchable = true, Type = Shared.DataType.text)]
         [Key]
         public long Id
         {

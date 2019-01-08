@@ -70,6 +70,10 @@
       <Project>{f1ce9822-d064-4e46-a298-cc6aac689bee}</Project>
       <Name>Tlahui.Domain.Infraestructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734d0-5758-4d59-a3a0-332e15c65e4d}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

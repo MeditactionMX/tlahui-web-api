@@ -4,17 +4,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Tlahui.Domain.Base.Entities;
 
 namespace Infrastructure
 {
     public interface IGenericRepository<T> where T : class
     {
 
-        IQueryable<T> Get(string UserId,string BucketId, RepositoryQuery Query);
 
-        int GetTotalCount(string UserId, string BucketId, RepositoryQuery Query);
+        IQueryable<T> GetEF(Expression<Func<T, bool>> filter = null,
+                                    Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
-        int GetFilteredCount(string UserId, string BucketId, RepositoryQuery Query);
+        IQueryable<T> Get(string EntityId, string UserId,string BucketId, APISearch Query);
+
+        int GetTotalCount(string EntityId, string UserId, string BucketId, APISearch Query);
+
+        int GetFilteredCount(string EntityId, string UserId, string BucketId, APISearch Query);
 
         T GetByID(string UserId, string BucketId, object id);
 

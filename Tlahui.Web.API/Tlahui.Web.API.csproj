@@ -209,6 +209,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BucketHelper.cs" />
+    <Compile Include="Models\modelbinders\APISearchModelBinder.cs" />
+    <Compile Include="Models\modelbinders\APISEarchModelBinderProvider.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -293,6 +295,10 @@
     <ProjectReference Include="..\Tlahui.Domain.Infraestructure\Tlahui.Domain.Infraestructure.csproj">
       <Project>{f1ce9822-d064-4e46-a298-cc6aac689bee}</Project>
       <Name>Tlahui.Domain.Infraestructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734d0-5758-4d59-a3a0-332e15c65e4d}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tlahui.Domain.Store\Tlahui.Domain.Store.csproj">
       <Project>{664d31c5-ea83-41a6-8ec9-5ad3195ddaa7}</Project>

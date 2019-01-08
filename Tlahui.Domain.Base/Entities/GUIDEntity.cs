@@ -31,7 +31,8 @@ namespace Tlahui.Domain.Base.Entities
         /// </summary>
         [Localizable("Identificador único", "Identificadores únicos", Context = "")]
         [Localizable("Unique identifier", "Unique identifiers", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 0, IsID = true, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (DisplayIndex = 0, DisplayByDefault = false, IsID = true, 
+            Type = Shared.DataType.text, DictionaryKey =true )]
         [Key]
         [MaxLength(CodeFirstConstats.GUID_ID_LEN)]
         public string Id

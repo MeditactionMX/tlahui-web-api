@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DynamicForms.Entities
 {
-    public class UIColumn: TableColumn, ILocalizable
+    public class UIColumn: EntitiesUIMetadata, ILocalizable
     {
         public string Language { get; set;}
         public string Culture { get; set;}
@@ -16,5 +16,6 @@ namespace DynamicForms.Entities
         public string TraslationId { get; set;}
         public string Plural { get; set;}
         public string ShortId { get; set; }
+        public string ResourceId { get; set; }
     }
 }

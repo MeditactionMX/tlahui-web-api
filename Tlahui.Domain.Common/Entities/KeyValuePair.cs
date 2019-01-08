@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure
+namespace Tlahui.Domain.Common.Entities
 {
-
-
-    public class FilterAttribute
+    public class APIKeyValuePair
     {
-
-        public string Name { get; set; }
+        public string Key { get; set; }
         public string Value { get; set; }
-
     }
 }

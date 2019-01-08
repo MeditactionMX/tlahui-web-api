@@ -12,6 +12,8 @@ namespace Tlahui.Web.API.App_Start
     using Tlahui.Services.Store;
     using Tlahui.Repositories.Infrastructure.CachedResources;
     using Tlahui.Repositories.Infrastructure.DynamicForms;
+    using Infrastructure.providers;
+    using Tlahui.Services.Caching.simple;
 
     public static class SimpleInjectorWebApiInitializer
     {
@@ -39,6 +41,10 @@ namespace Tlahui.Web.API.App_Start
             container.Register<ICachedResourceStatisticsRepository, CachedResourceStatisticsRepository>(Lifestyle.Scoped);
             container.Register<IDynamicFormsRepository, DynamicFormsRepository>(Lifestyle.Scoped);
             container.Register<IStoreService, StoreService>(Lifestyle.Scoped);
+            container.Register<ISQLSearchProvider, MSSQLSearchProvider>(Lifestyle.Scoped);
+            container.Register<ICacheService, InMemoryCache>(Lifestyle.Scoped);
+
+
             // container.Register<IUserRepository, SqlUserRepository>(Lifestyle.Scoped);
         }
     }

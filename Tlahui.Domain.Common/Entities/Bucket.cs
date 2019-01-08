@@ -39,7 +39,7 @@ namespace Tlahui.Domain.Common.Tenant
         /// </summary>
         [Localizable("Nombre del Bucket", "Nombre del Bucket", Context = "")]
         [Localizable("Bucket Name", "Bucket Name", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 1, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 1, IsID = false, OutpuFormat = "", Searchable = true, Type = Shared.DataType.text)]
         [MaxLength(250)]
         [Required]
         [Index]
@@ -52,7 +52,7 @@ namespace Tlahui.Domain.Common.Tenant
         [NotMapped]
         [Localizable("Propietario", "Propietarios", Context = "")]
         [Localizable("Owner", "Owners", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 2, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 2, IsID = false, OutpuFormat = "", Searchable = true, Type = Shared.DataType.text)]
         public string UserFullNameLabel { get; set; }
 
 

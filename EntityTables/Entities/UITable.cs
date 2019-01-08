@@ -19,7 +19,7 @@ namespace DynamicForms.Entities
         public string Context { get; set; }
         public string TraslationId { get; set; }
         public string Plural { get; set; }
-
+        public string ResourceId { get; set; }
         public string ShortId { get; set; }
         public List<UIColumn> Columns { get; set; }
 

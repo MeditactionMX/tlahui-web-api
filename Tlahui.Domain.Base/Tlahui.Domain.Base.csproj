@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\APISearch.cs" />
+    <Compile Include="Entities\APISearchTerm.cs" />
     <Compile Include="Entities\GUIDEntity.cs" />
     <Compile Include="Entities\IBucketTrackable.cs" />
     <Compile Include="Entities\IDynamicUIResource.cs" />
@@ -70,6 +72,10 @@
     <ProjectReference Include="..\CustomAttributes\CustomAttributes.csproj">
       <Project>{a5394107-969d-46d1-b138-ffc5ae07b39d}</Project>
       <Name>CustomAttributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734d0-5758-4d59-a3a0-332e15c65e4d}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

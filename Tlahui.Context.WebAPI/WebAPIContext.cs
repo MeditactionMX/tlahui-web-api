@@ -35,6 +35,10 @@ namespace Tlahui.Context.WebAPI
         public virtual DbSet<CachedResourceStatistics> CachedResourceStatistics { get; set; }
         public virtual DbSet<LocalizableResource> LocalizableResources { get; set; }
         public virtual DbSet<DynamicTableMetadata> DynamicTableMetadataProperties { get; set; }
+        public virtual DbSet<DynamicFormMetadata> DynamicFormMetadataProperties { get; set; }
+
+        public virtual DbSet<EntityQuery> EntityQueries { get; set; }
+
         #endregion
 
 

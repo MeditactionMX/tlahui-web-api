@@ -10,6 +10,7 @@ using Tlahui.Domain.Base;
 using Tlahui.Domain.Common.Tenant;
 using Newtonsoft.Json;
 using CustomAttributes;
+using Tlahui.Domain.Shared;
 
 namespace Tlahui.Domain.Store.Entities
 {
@@ -23,6 +24,13 @@ namespace Tlahui.Domain.Store.Entities
     [Localizable("Category", "Categories", Context = "", Culture = "US", Language = "en")]
     public class Category : GUIDEntity, ITrackableEntity, IBucketTrackable, ILocalizableResource, IDynamicUIResource
     {
+
+        //Especifica el query para la consulta 
+        public const string QUERY = @"select c.id, c.BucketId, c.Name, c.Description, c.KeyWords, c.DisplayOrder , c.Published , c.ParentCategoryId, 
+                        c.Deleted , c.CreateDate, c.CreatorId, c.UpdateDate, c.ModifierId , c.DeletedDate , c.DeleterId ,
+                        pc.Name as ParentCategoryLabel, '' as CreatorLabel, '' as ModifierLabel, '' as DeleterLabel
+                        from store.Category c
+                        left join store.Category pc on c.ParentCategoryId = pc.Id";
 
         #region CNST
 
@@ -47,7 +55,8 @@ namespace Tlahui.Domain.Store.Entities
         [Index(IsClustered = false)]
         [Localizable("BucketId", "BucketId", Context ="")]
         [Localizable("BucketId", "BucketId", Context = "", Culture ="US", Language ="en")]
-        [TableColumn(AlwaysHidden =true, DisplayByDefault =false , DisplayIndex =0, IsID =false, OutpuFormat ="", Searchable =false, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (AlwaysHidden =true, DisplayByDefault =false,  Searchable =false, Type = Shared.DataType.text,
+             DataSourceType = Shared.DataSourceType.server_session, Required =true )]
         /// <summary>
         /// Bucket asociado a la categorías
         /// </summary>
@@ -61,7 +70,8 @@ namespace Tlahui.Domain.Store.Entities
         [MaxLength(CodeFirstConstats.NAME_FIELD_LEN)]
         [Localizable("Categoría","Categorías", Context = "")]
         [Localizable("Category","Categories", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = true, DisplayIndex = 1, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (DisplayIndex = 1, DefaultSort =true, DictionaryValue =true, DictionaryValueIndex =0, Type = Shared.DataType.text,
+            DataSourceType = Shared.DataSourceType.user_input, ControlType = ControlType.inputbox, ActionAvailable =true, AddActionAvailable =true, UpdateActionAvailable =true, Col =1, Row=1, Width ="100%", Required = true)]
         /// <summary>
         /// Nombre de la categoria
         /// </summary>
@@ -71,7 +81,8 @@ namespace Tlahui.Domain.Store.Entities
 
         [Localizable("Descripción", "Descripciones", Context = "")]
         [Localizable("Description", "Descriptions", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = true, DisplayIndex = 2, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (DisplayIndex = 2, Searchable = true, Type = Shared.DataType.text,
+            DataSourceType = Shared.DataSourceType.user_input, ControlType = ControlType.text_area, ActionAvailable = true, AddActionAvailable = true, UpdateActionAvailable = true, Col = 1, Row = 2, Width = "100%", Height ="200px", Required = true)]
         /// <summary>
         /// Descripción de la cartgoría
         /// </summary>
@@ -81,7 +92,8 @@ namespace Tlahui.Domain.Store.Entities
 
         [Localizable("Palabras clave", "Palabras clave", Context = "")]
         [Localizable("Keywords", "Keywords", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = int.MaxValue, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (DisplayByDefault = false, DisplayIndex = 3, Searchable = true, Type = Shared.DataType.text,
+            DataSourceType = Shared.DataSourceType.user_input, ControlType = ControlType.text_area, ActionAvailable = true, AddActionAvailable = true, UpdateActionAvailable = true, Col = 1, Row = 3, Width = "100%", Height = "200px", Required = true)]
         [MaxLength(CodeFirstConstats.KEYWORDS_FIELD_LEN)]
         /// <summary>
         /// Palabras clave asociadas a la caetgprí
@@ -92,7 +104,8 @@ namespace Tlahui.Domain.Store.Entities
         [Required]
         [Localizable("Orden despliegue", "Orden despliegue", Context = "")]
         [Localizable("Display order", "Display order", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = true, DisplayByDefault = false, DisplayIndex = 0, IsID = false, OutpuFormat = "", Searchable = false, Type = TableColumn.DataType.integer_number)]
+        [EntitiesUIMetadata (DisplayByDefault = false, DisplayIndex = 4, Type = Shared.DataType.integer_number,
+            DataSourceType = Shared.DataSourceType.user_input, ControlType = ControlType.inputbox, ActionAvailable = true, AddActionAvailable = true, UpdateActionAvailable = true, Col = 1, Row = 5, Width = "50%", DefaultValue ="0")]
         /// <summary>
         /// Ordén de despliegue para la categoria
         /// </summary>
@@ -102,7 +115,8 @@ namespace Tlahui.Domain.Store.Entities
         [Required]
         [Localizable("Publicada", "Publicadas", Context = "")]
         [Localizable("Published", "Published", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 3, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.boolean)]
+        [EntitiesUIMetadata (DisplayByDefault = false, DisplayIndex = 5, Type = Shared.DataType.boolean,
+              DataSourceType = Shared.DataSourceType.user_input, ControlType = ControlType.checkbox, ActionAvailable = true, AddActionAvailable = true, UpdateActionAvailable = true, Col = 2, Row = 5, Width = "50%", Required = true)]
         /// <summary>
         /// Espeifica si la categoria está disponible públicamente
         /// </summary>
@@ -114,6 +128,13 @@ namespace Tlahui.Domain.Store.Entities
         [JsonIgnore]
         public virtual IQueryable<Category> Categories { get; set; }
 
+
+        [Localizable("Categoría padre", "Categorías padre", Context = "")]
+        [Localizable("Parent category", "Parent categories", Context = "", Culture = "US", Language = "en")]
+        [EntitiesUIMetadata(DisplayByDefault = false, Searchable = false, Type = Shared.DataType.text,
+         APIDictionaryEndpoint = "/api/store/categories/", 
+         DataSourceType = Shared.DataSourceType.user_input, ControlType = ControlType.select_localapi_elements, 
+         ActionAvailable = true, AddActionAvailable = true, UpdateActionAvailable = true, Col = 2, Row = 5, Width = "50%", DefaultValue ="0", Required =true)]
         /// <summary>
         /// Determina el padre de la categoría, si es nulo este campo implica un categoria raiz
         /// </summary>
@@ -126,7 +147,8 @@ namespace Tlahui.Domain.Store.Entities
         [NotMapped]
         [Localizable("Categoría padre", "Categorías padre", Context = "")]
         [Localizable("Parent category", "Parent categories", Context = "", Culture = "US", Language = "en")]
-        [TableColumn(AlwaysHidden = false, DisplayByDefault = false, DisplayIndex = 4, IsID = false, OutpuFormat = "", Searchable = true, Type = TableColumn.DataType.text)]
+        [EntitiesUIMetadata (DisplayByDefault = false, DisplayIndex = 6, Searchable = true, Type = Shared.DataType.text,
+             APIDictionaryEndpoint = "/api/store/categories/")]
         public string ParentCategoryLabel { get; set; }
 
         /// <summary>

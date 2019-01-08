@@ -1,8 +1,13 @@
-﻿using System;
+﻿using Infrastructure.providers;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tlahui.Domain.Base.Entities;
@@ -14,18 +19,98 @@ namespace Infrastructure.GenericRepository
     {
         internal DbContext context;
         internal DbSet<T> dbSet;
-
-        public GenericRepository(DbContext context)
+        private ISQLSearchProvider SearchProvider;
+        public GenericRepository(DbContext context, ISQLSearchProvider provider)
         {
+            this.SearchProvider = provider;
             this.context = context;
             this.dbSet = context.Set<T>();
          }
 
-
-        public virtual IQueryable<T> Get(string UserId, string BucketId,
-      RepositoryQuery Query)
+   
+        public virtual IQueryable<T> Get(string EntityId, string UserId, string BucketId,
+                     APISearch Query)
         {
-            IQueryable<T> query = dbSet;
+            string sqls = SearchProvider.GetQuery(Query);
+            IQueryable<T> query;
+            if (sqls != "")
+            {
+                DataTable dt = new DataTable();
+                var conn = context.Database.Connection;
+                var connectionState = conn.State;
+
+                if (connectionState == ConnectionState.Closed) conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = sqls;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.Add(new SqlParameter("", ""));
+                    cmd.Connection = conn;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        dt.Load(reader);
+                    }
+                }
+                if (connectionState == ConnectionState.Closed) conn.Close();
+
+
+                Type tipo = typeof(T);
+                IList lista = (IList)Activator.CreateInstance((typeof(List<>).MakeGenericType(tipo)));
+
+                foreach (DataRow r in dt.Rows)
+                {
+                    object o = Activator.CreateInstance(tipo);
+                    var properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+                    foreach (var property in properties)
+                    {
+
+
+                        foreach (DataColumn c in dt.Columns)
+                        {
+
+                            if (c.ColumnName.ToLower() == property.Name.ToLower())
+                            {
+                                try
+                                {
+                                    if (r[c.ColumnName] != System.DBNull.Value)
+                                    {
+
+                                        if (c.DataType == System.Type.GetType("System.DateTime"))
+                                        {
+                                            DateTime d = Convert.ToDateTime(r[c.ColumnName]).AddHours(int.Parse(Query.gmt));
+                                            property.SetValue(o, d);
+                                        }
+                                        else {
+                                            property.SetValue(o, r[c.ColumnName]);
+                                        }
+                                        
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+
+
+
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    lista.Add(o);
+                }
+
+                query = (IQueryable<T>)lista.AsQueryable();
+
+
+            }
+            else {
+                query = null;
+            }
+            
 
             return query;
         }
@@ -78,12 +163,12 @@ namespace Infrastructure.GenericRepository
 
         //-----------------------------------
 
-        public int GetTotalCount(string UserId, string BucketId, RepositoryQuery Query)
+        public int GetTotalCount(string EntityId, string UserId, string BucketId, APISearch Query)
         {
             throw new NotImplementedException();
         }
 
-        public int GetFilteredCount(string UserId, string BucketId, RepositoryQuery Query)
+        public int GetFilteredCount(string EntityId, string UserId, string BucketId, APISearch Query)
         {
             throw new NotImplementedException();
         }
@@ -125,6 +210,32 @@ namespace Infrastructure.GenericRepository
         public void Save()
         {
             this.context.SaveChanges();
+        }
+
+        public IQueryable<T> GetEF(Expression<Func<T, bool>> filter = null, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        {
+
+          
+            IQueryable<T> query = dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).AsQueryable();
+
+            }
+            else
+            {
+                return query.AsQueryable(); 
+            }
+
+ 
+
         }
     }
 }

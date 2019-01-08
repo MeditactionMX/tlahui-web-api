@@ -52,8 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CachedResourceStatistics.cs" />
+    <Compile Include="Entities\DynamicFormMetadata.cs" />
     <Compile Include="Entities\DynamicTableMetadata.cs" />
+    <Compile Include="Entities\EntityQuery.cs" />
     <Compile Include="Entities\LocalizableResource.cs" />
+    <Compile Include="Entities\Prueba\ObjetoDePrueba.cs" />
+    <Compile Include="Entities\Prueba\ObjetoListaValores.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +76,10 @@
     <ProjectReference Include="..\Tlahui.Domain.Common\Tlahui.Domain.Common.csproj">
       <Project>{6e333685-04b7-4136-907f-6d055764cb47}</Project>
       <Name>Tlahui.Domain.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734d0-5758-4d59-a3a0-332e15c65e4d}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

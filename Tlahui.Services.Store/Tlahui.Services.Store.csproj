@@ -102,6 +102,10 @@
       <Project>{6a9e5e30-2a2d-4a07-9f64-88682c9ba1de}</Project>
       <Name>Tlahui.Repositories.Store</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Services.Caching\Tlahui.Services.Caching.csproj">
+      <Project>{b85c0ac4-392f-428a-808d-f0a8685b4aea}</Project>
+      <Name>Tlahui.Services.Caching</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

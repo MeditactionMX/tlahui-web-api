@@ -15,6 +15,8 @@ using Tlahui.Repositories.Store;
 using Tlahui.Services.Store;
 using Tlahui.Repositories.Infrastructure.CachedResources;
 using Tlahui.Repositories.Infrastructure.DynamicForms;
+using Infrastructure.providers;
+using Tlahui.Services.Caching.simple;
 
 namespace Tlahui.Web.API
 {
@@ -45,7 +47,8 @@ namespace Tlahui.Web.API
             container.Register<ICachedResourceStatisticsRepository, CachedResourceStatisticsRepository>(Lifestyle.Scoped);
             container.Register<IDynamicFormsRepository, DynamicFormsRepository>(Lifestyle.Scoped);
             container.Register<IStoreService, StoreService>(Lifestyle.Scoped);
-
+            container.Register<ISQLSearchProvider, MSSQLSearchProvider>(Lifestyle.Scoped);
+            container.Register<ICacheService, InMemoryCache>(Lifestyle.Singleton);
 
             // This is an extension method from the integration package.
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);

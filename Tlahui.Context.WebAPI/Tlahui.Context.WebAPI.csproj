@@ -70,6 +70,30 @@
     <Compile Include="Migrations\201806121942413_MDynamicTableMetadata.Designer.cs">
       <DependentUpon>201806121942413_MDynamicTableMetadata.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806270229208_EntityQueriesInfrastructure.cs" />
+    <Compile Include="Migrations\201806270229208_EntityQueriesInfrastructure.Designer.cs">
+      <DependentUpon>201806270229208_EntityQueriesInfrastructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806271529306_TableColumMetadataUpdate.cs" />
+    <Compile Include="Migrations\201806271529306_TableColumMetadataUpdate.Designer.cs">
+      <DependentUpon>201806271529306_TableColumMetadataUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806271605591_BoolDisplayTypeAnnotation.cs" />
+    <Compile Include="Migrations\201806271605591_BoolDisplayTypeAnnotation.Designer.cs">
+      <DependentUpon>201806271605591_BoolDisplayTypeAnnotation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807170026149_DynamicFormsMetadata.cs" />
+    <Compile Include="Migrations\201807170026149_DynamicFormsMetadata.Designer.cs">
+      <DependentUpon>201807170026149_DynamicFormsMetadata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807182246376_FormMetadataUpdate.cs" />
+    <Compile Include="Migrations\201807182246376_FormMetadataUpdate.Designer.cs">
+      <DependentUpon>201807182246376_FormMetadataUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807241916124_DynFieldRequiredProp.cs" />
+    <Compile Include="Migrations\201807241916124_DynFieldRequiredProp.Designer.cs">
+      <DependentUpon>201807241916124_DynFieldRequiredProp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebAPIContext.cs" />
@@ -109,6 +133,10 @@
       <Project>{f1ce9822-d064-4e46-a298-cc6aac689bee}</Project>
       <Name>Tlahui.Domain.Infraestructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tlahui.Domain.Shared\Tlahui.Domain.Shared.csproj">
+      <Project>{498734d0-5758-4d59-a3a0-332e15c65e4d}</Project>
+      <Name>Tlahui.Domain.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tlahui.Domain.Store\Tlahui.Domain.Store.csproj">
       <Project>{664d31c5-ea83-41a6-8ec9-5ad3195ddaa7}</Project>
       <Name>Tlahui.Domain.Store</Name>
@@ -129,6 +157,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806121942413_MDynamicTableMetadata.resx">
       <DependentUpon>201806121942413_MDynamicTableMetadata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806270229208_EntityQueriesInfrastructure.resx">
+      <DependentUpon>201806270229208_EntityQueriesInfrastructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271529306_TableColumMetadataUpdate.resx">
+      <DependentUpon>201806271529306_TableColumMetadataUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806271605591_BoolDisplayTypeAnnotation.resx">
+      <DependentUpon>201806271605591_BoolDisplayTypeAnnotation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807170026149_DynamicFormsMetadata.resx">
+      <DependentUpon>201807170026149_DynamicFormsMetadata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807182246376_FormMetadataUpdate.resx">
+      <DependentUpon>201807182246376_FormMetadataUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807241916124_DynFieldRequiredProp.resx">
+      <DependentUpon>201807241916124_DynFieldRequiredProp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

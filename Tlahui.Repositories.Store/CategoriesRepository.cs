@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.GenericRepository;
+using Infrastructure.providers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,7 +15,7 @@ namespace Tlahui.Repositories.Store
     {
 
 
-        public CategoriesRepository(DbContext Db):base(Db)
+        public CategoriesRepository(DbContext Db, ISQLSearchProvider provider):base(Db, provider)
         {
             }
 

@@ -19,4 +19,6 @@ namespace Tlahui.Domain.Base.Enumerations
         Permanent=0
     }
 
+
+
 }
